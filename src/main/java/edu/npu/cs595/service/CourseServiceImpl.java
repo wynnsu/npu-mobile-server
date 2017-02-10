@@ -12,7 +12,7 @@ import edu.npu.cs595.dao.CourseDao;
 public class CourseServiceImpl implements CourseService {
 
 	@Autowired
-	@Qualifier("CourseDao")
+	@Qualifier("CourseDaoHibernate")
 	private CourseDao courseDao;
 
 	@Override

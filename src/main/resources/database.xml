@@ -28,11 +28,14 @@
 		<!-- <property name="packagesToScan" value="org.npu.cusorder.domain" /> -->
 		<property name="annotatedClasses">
 			<list>
-				<value>edu.npu.gameapp.domain.Player</value>
-				<value>edu.npu.gameapp.domain.Character</value>
-				<value>edu.npu.gameapp.domain.Equipment</value>
-				<value>edu.npu.gameapp.domain.GameClass</value>
-				<value>edu.npu.gameapp.domain.ClassAbility</value>
+				<value>edu.npu.cs595.domain.AcademicEvent</value>
+				<value>edu.npu.cs595.domain.Building</value>
+				<value>edu.npu.cs595.domain.Classroom</value>
+				<value>edu.npu.cs595.domain.Course</value>
+				<value>edu.npu.cs595.domain.Department</value>
+				<value>edu.npu.cs595.domain.Faculty</value>
+				<value>edu.npu.cs595.domain.News</value>
+				<value>edu.npu.cs595.domain.Tag</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

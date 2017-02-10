@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,13 +24,17 @@ public class Course {
 	@Id
 	@GeneratedValue
 	private int id;
+	@ManyToOne
+	@JoinColumn(name = "department_id", referencedColumnName = "id")
 	private Department department;
+	@Column(name = "course_number")
 	private String courseNumber;
+	@Column(name = "is_online")
 	private String isOnline;
-	private String Title;
+	private String title;
 	private double credits;
 	@ManyToMany
-	@JoinTable(name = "prerequisite", joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"))
+	@JoinTable(name = "prerequisite", joinColumns = @JoinColumn(name = "prerequisite_course_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "advanced_course_id", referencedColumnName = "id"))
 	private List<Course> prerequisite = new ArrayList<>();
 	@ManyToOne
 	@JoinColumn(name = "instructor_id", referencedColumnName = "id")
@@ -72,11 +77,11 @@ public class Course {
 	}
 
 	public String getTitle() {
-		return Title;
+		return title;
 	}
 
 	public void setTitle(String title) {
-		Title = title;
+		this.title = title;
 	}
 
 	public double getCredits() {

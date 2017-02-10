@@ -6,15 +6,19 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.npu.cs595.dao.CourseDao;
 import edu.npu.cs595.domain.Course;
 
+@Repository("CourseDaoHibernate")
+@Transactional
 public class CourseDaoHibernateImpl implements CourseDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
-	
+
 	@Override
 	public Course storeCourse(Course course) {
 		Session session = sessionFactory.getCurrentSession();
@@ -25,7 +29,7 @@ public class CourseDaoHibernateImpl implements CourseDao {
 	@Override
 	public Course findCourse(int courseId) {
 		Session session = sessionFactory.getCurrentSession();
-		Course course=(Course)session.get(Course.class, courseId);
+		Course course = (Course) session.get(Course.class, courseId);
 		return course;
 	}
 
@@ -39,7 +43,7 @@ public class CourseDaoHibernateImpl implements CourseDao {
 	@Override
 	public List<Course> findAllCourses() {
 		Session session = sessionFactory.getCurrentSession();
-		Query query=session.createQuery("from Course");
+		Query query = session.createQuery("from Course");
 		return query.list();
 	}
 

@@ -1,4 +1,5 @@
 package edu.npu.cs595.domain;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,6 +18,7 @@ public class Classroom {
 	@ManyToOne
 	@JoinColumn(name="building_id",referencedColumnName="id")
 	private Building building;
+	@Column(name="room_number")
 	private String number;
 	public int getId() {
 		return id;

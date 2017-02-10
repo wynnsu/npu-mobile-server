@@ -2,6 +2,7 @@ package edu.npu.cs595.domain;
 
 import java.sql.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,6 +16,7 @@ public class AcademicEvent {
 	@Id
 	@GeneratedValue
 	private int id;
+	@Column(name="event_date")
 	private Date date;
 	private String content;
 
