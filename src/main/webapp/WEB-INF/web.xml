@@ -14,6 +14,20 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
+	<filter>
+	     <filter-name>hibernateFilter</filter-name>
+	     <filter-class>
+	         org.springframework.orm.hibernate4.support.OpenSessionInViewFilter
+	     </filter-class>
+	     <init-param>
+	         <param-name>sessionFactoryBeanName</param-name>
+	         <param-value>sessionFactory</param-value> 
+	     </init-param>
+	 </filter>
+	 <filter-mapping>
+	     <filter-name>hibernateFilter</filter-name>
+	     <url-pattern>/*</url-pattern>
+	 </filter-mapping>
 	<!-- Processes application requests -->
 	<servlet>
 		<servlet-name>appServlet</servlet-name>
@@ -24,10 +38,28 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	
+	<!-- Jersey Configuration JAX-RS -->
+	<servlet>
+		<servlet-name>JerseyWebApplication</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		<init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>edu.npu.gameapp.resthandlers.RestApplicationConfig</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
 		
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	<!-- Jersey Dispatcher Servlet will handle URLs in this space -->
+	<!-- Jersey Mappings -->
+	<servlet-mapping>
+		<servlet-name>JerseyWebApplication</servlet-name>
+		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
 
 </web-app>
