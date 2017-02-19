@@ -46,8 +46,8 @@ public class AcademicEventServiceImpl implements AcademicEventService {
 		return eventDao.findEvent(eventId);
 	}
 
-	// Fire at 7:00 AM on the last day of every month
-	@Scheduled(cron = "0 0 7 L * ?")
+	// Fire at 7:00 AM on the first day of every month
+	@Scheduled(cron = "0 0 7 1 * ?")
 	@Override
 	public void updateEventList() {
 		try {
