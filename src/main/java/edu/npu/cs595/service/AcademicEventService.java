@@ -8,4 +8,6 @@ public interface AcademicEventService {
 	public List<AcademicEvent> getEvents();
 
 	public AcademicEvent getEventById(int eventId);
+
+	public void updateEventList();
 }
