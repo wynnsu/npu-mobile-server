@@ -1,5 +1,5 @@
 GRANT ALL PRIVILEGES ON npumobiledb.* TO 'npumobileuser'@'localhost' IDENTIFIED BY 'spring' WITH GRANT OPTION;
-SHOW GRANTS FOR 'gameDbUser'@'localhost';
+SHOW GRANTS FOR 'npumobileuser'@'localhost';
 
 CREATE SCHEMA IF NOT EXISTS `npumobiledb` ;
 USE `npumobiledb` ;
