@@ -1,19 +1,8 @@
 package edu.npu.cs595.service;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.time.Year;
-import java.util.Calendar;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -34,6 +23,8 @@ public class AcademicEventServiceImpl implements AcademicEventService {
 	@Qualifier("EventCrawler")
 	private Crawler<AcademicEvent> eventCrawler;
 
+	private int debug_schedule_switch = 0;
+
 	protected static Logger logger = Logger.getLogger("Crawler");
 
 	@Override
@@ -47,9 +38,14 @@ public class AcademicEventServiceImpl implements AcademicEventService {
 	}
 
 	// Fire at 7:00 AM on the first day of every month
-	@Scheduled(cron = "0 0 7 1 * ?")
+//	@Scheduled(cron = "0 0 7 1 * ?")
+	@Scheduled(cron="0/10 * * * * ?")
 	@Override
 	public void updateEventList() {
+		if (debug_schedule_switch > 0) {
+			return;
+		}
+		debug_schedule_switch++;
 		try {
 			logger.info("Retrieving data");
 			List<AcademicEvent> list = eventCrawler.crawl();
