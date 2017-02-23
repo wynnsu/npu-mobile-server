@@ -1,0 +1,5 @@
+WARNING - 05:15:50: First conversion pass
+ERROR - 05:15:50: java.net.MalformedURLException: unknown protocol: pathmap
+WARNING - 05:16:03: Convert edu.npu.cs595.domain
+WARNING - 05:16:03: First conversion pass
+ERROR - 05:16:03: java.net.MalformedURLException: unknown protocol: pathmap

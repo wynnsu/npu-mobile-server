@@ -17,6 +17,16 @@ public class News {
 	private String title;
 	private String content;
 
+	public News(){
+		
+	}
+	public News(String imageUrl, String title, String content) {
+		super();
+		this.imageUrl = imageUrl;
+		this.title = title;
+		this.content = content;
+	}
+
 	public int getId() {
 		return id;
 	}

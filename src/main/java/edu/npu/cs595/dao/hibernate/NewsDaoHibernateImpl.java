@@ -43,7 +43,7 @@ public class NewsDaoHibernateImpl implements NewsDao {
 	@Override
 	public List<News> findAllNews() {
 		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery("from news");
+		Query query = session.createQuery("from News");
 		return query.list();
 	}
 

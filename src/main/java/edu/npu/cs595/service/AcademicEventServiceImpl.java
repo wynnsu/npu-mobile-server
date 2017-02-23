@@ -1,19 +1,8 @@
 package edu.npu.cs595.service;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.time.Year;
-import java.util.Calendar;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -34,7 +23,7 @@ public class AcademicEventServiceImpl implements AcademicEventService {
 	@Qualifier("EventCrawler")
 	private Crawler<AcademicEvent> eventCrawler;
 
-	protected static Logger logger = Logger.getLogger("Crawler");
+	protected static Logger logger = Logger.getLogger(AcademicEventService.class);
 
 	@Override
 	public List<AcademicEvent> getEvents() {
@@ -53,7 +42,14 @@ public class AcademicEventServiceImpl implements AcademicEventService {
 		try {
 			logger.info("Retrieving data");
 			List<AcademicEvent> list = eventCrawler.crawl();
+			List<AcademicEvent> origin = eventDao.findAllEvents();
+			if (!origin.isEmpty()) {
+				for (AcademicEvent e : origin) {
+					eventDao.removeEvent(e);
+				}
+			}
 			for (AcademicEvent e : list) {
+
 				eventDao.storeEvent(e);
 			}
 		} catch (Exception e) {

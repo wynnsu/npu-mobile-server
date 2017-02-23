@@ -8,4 +8,6 @@ public interface NewsService {
 	public News getNewsById(int newsId);
 
 	public List<News> getNews();
+
+	void updateNewsList();
 }

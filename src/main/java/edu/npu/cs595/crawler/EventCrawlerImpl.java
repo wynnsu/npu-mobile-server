@@ -20,8 +20,6 @@ import edu.npu.cs595.domain.AcademicEvent;
 @Component
 @Qualifier("EventCrawler")
 public class EventCrawlerImpl implements Crawler<AcademicEvent> {
-	private final String base_url = "https://www.npu.edu";
-
 	private final String event_url = "/academics/academic-calendar";
 
 	private List<AcademicEvent> getEvents(Document pageDoc) throws ParseException {
@@ -51,12 +49,12 @@ public class EventCrawlerImpl implements Crawler<AcademicEvent> {
 
 	@Override
 	public List<AcademicEvent> crawl() throws Exception {
-		Document doc = Jsoup.connect(base_url + event_url).get();
+		Document doc = Crawler.getDoc(event_url);
 		Elements pages = doc.getElementsByClass("pager-item");
 		List<AcademicEvent> result = new ArrayList<>();
 		result.addAll(getEvents(doc));
 		for (Element page : pages) {
-			doc = Jsoup.connect(base_url + page.getElementsByTag("a").attr("href")).get();
+			doc = Jsoup.connect(BASE_URL + page.getElementsByTag("a").attr("href")).get();
 			result.addAll(getEvents(doc));
 		}
 		return result;

@@ -153,23 +153,4 @@ public class NPUMobileRestHandler {
 		}
 		return course.getPrerequisite();
 	}
-	// @GET
-	// @Path("/player/{id}")
-	// @Produces(MediaType.APPLICATION_JSON)
-	// public Player getPlayer(@PathParam("id") int id) {
-	// Player player = null;
-	//
-	// try {
-	// player = playerService.getPlayerById(id);
-	// } catch (Exception ex) {
-	// throw new WebApplicationException(ex.getMessage());
-	// }
-	//
-	// if (player == null) {
-	// logger.debug("Failed request to lookup player with id :" + id);
-	// throw new UnknownResourceException("Player id: " + id + " is invalid");
-	// }
-	//
-	// return player;
-	// }
 }
