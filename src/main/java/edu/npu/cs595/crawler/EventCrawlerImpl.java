@@ -54,7 +54,7 @@ public class EventCrawlerImpl implements Crawler<AcademicEvent> {
 		List<AcademicEvent> result = new ArrayList<>();
 		result.addAll(getEvents(doc));
 		for (Element page : pages) {
-			doc = Jsoup.connect(BASE_URL + page.getElementsByTag("a").attr("href")).get();
+			doc=Crawler.getDoc( page.getElementsByTag("a").attr("href"));
 			result.addAll(getEvents(doc));
 		}
 		return result;

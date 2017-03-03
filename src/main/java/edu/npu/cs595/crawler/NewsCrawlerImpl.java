@@ -41,7 +41,7 @@ public class NewsCrawlerImpl implements Crawler<News> {
 		List<News> result = new ArrayList<>();
 		result.addAll(getNews(doc));
 		for (Element page : pages) {
-			doc = Jsoup.connect(BASE_URL + page.getElementsByTag("a").attr("href")).get();
+			doc = Crawler.getDoc(page.getElementsByTag("a").attr("href"));
 			result.addAll(getNews(doc));
 		}
 		return result;
