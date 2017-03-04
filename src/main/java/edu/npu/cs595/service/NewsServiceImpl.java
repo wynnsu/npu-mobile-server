@@ -37,6 +37,7 @@ public class NewsServiceImpl implements NewsService {
 
 	// Fire at 7:00 AM everyday
 	@Scheduled(cron = "0 0 7 * * ?")
+//	@Scheduled(cron="15 * * * * ?")
 	@Override
 	public void updateNewsList() {
 		try {

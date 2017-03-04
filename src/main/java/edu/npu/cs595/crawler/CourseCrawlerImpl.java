@@ -1,5 +1,6 @@
 package edu.npu.cs595.crawler;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,25 +16,35 @@ import edu.npu.cs595.domain.Course;
 @Qualifier("CourseCrawler")
 public class CourseCrawlerImpl implements Crawler<Course> {
 
-	@Autowired
-	Authenticator auth;
-	private final String course_url = "";
 
-	private List<Course> getCourses(Document pageDoc) {
-		ArrayList<Course> result = new ArrayList<>();
-		System.out.println(pageDoc.html());
-		Course course=new Course();
-		course.setId(123);
-		course.setTitle(pageDoc.html());
-		result.add(course);
-		return result;
-	}
+	private final String course_url = "";
+	//
+	// private List<Course> getCourses(Document pageDoc) {
+	// ArrayList<Course> result = new ArrayList<>();
+	// System.out.println(pageDoc.html());
+	// Course course=new Course();
+	// course.setId(123);
+	// course.setTitle(pageDoc.html());
+	// result.add(course);
+	// return result;
+	// }
 
 	@Override
 	public List<Course> crawl() throws Exception {
 		final String credential = "15325sy:4d5d28022fnpu";
 		Document doc = Crawler.getDoc(course_url, Base64.encode(credential.getBytes()));
-		return getCourses(doc);
+		return parseDocument(doc);
+	}
+
+	@Override
+	public List<Course> parseDocument(Document doc) throws ParseException {
+		ArrayList<Course> result = new ArrayList<>();
+		System.out.println(doc.html());
+		Course course=new Course();
+		course.setId(123);
+		course.setTitle(doc.html());
+		result.add(course);
+		return result;
 	}
 
 }

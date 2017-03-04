@@ -4,6 +4,7 @@ SHOW GRANTS FOR 'npumobileuser'@'localhost';
 CREATE SCHEMA IF NOT EXISTS `npumobiledb` ;
 USE `npumobiledb` ;
 
+drop table if exists student;
 drop table if exists prerequisite;
 drop table if exists tagging;
 drop table if exists course;
@@ -14,6 +15,7 @@ drop table if exists department;
 drop table if exists classroom;
 drop table if exists building;
 drop table if exists tag;
+
 create table academic_event (
     id integer not null auto_increment,
     event_date date,
@@ -88,6 +90,12 @@ create table tagging (
     tag_id integer,
     faculty_id integer,
     primary key (id)
+);
+
+create table student (
+	id integer not null auto_increment,
+	credential varchar(255),
+	primary key (id)
 );
 
 alter table tagging 

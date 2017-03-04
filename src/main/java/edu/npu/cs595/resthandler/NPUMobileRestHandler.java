@@ -1,11 +1,10 @@
 package edu.npu.cs595.resthandler;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -13,18 +12,19 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.npu.cs595.domain.AcademicEvent;
 import edu.npu.cs595.domain.Building;
 import edu.npu.cs595.domain.Course;
 import edu.npu.cs595.domain.News;
+import edu.npu.cs595.domain.Student;
 import edu.npu.cs595.exceptions.UnknownResourceException;
 import edu.npu.cs595.service.AcademicEventService;
 import edu.npu.cs595.service.BuildingService;
 import edu.npu.cs595.service.CourseService;
 import edu.npu.cs595.service.NewsService;
+import edu.npu.cs595.service.StudentService;
 
 @Path("/")
 public class NPUMobileRestHandler {
@@ -36,6 +36,8 @@ public class NPUMobileRestHandler {
 	private CourseService courseService;
 	@Autowired
 	private NewsService newsService;
+	@Autowired
+	private StudentService studentService;
 	private Logger logger = Logger.getLogger(NPUMobileRestHandler.class);
 
 	@GET
@@ -152,5 +154,12 @@ public class NPUMobileRestHandler {
 			throw new UnknownResourceException("Course id: " + id + " is invalid");
 		}
 		return course.getPrerequisite();
+	}
+
+	@POST
+	@Path("/login")
+	public int loginStudent(Student student) throws IOException {
+		int result = studentService.addNewStudent(student);
+		return result;
 	}
 }
