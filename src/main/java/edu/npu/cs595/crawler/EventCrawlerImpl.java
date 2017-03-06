@@ -18,42 +18,17 @@ import edu.npu.cs595.domain.AcademicEvent;
 
 @Component
 @Qualifier("EventCrawler")
-public class EventCrawlerImpl implements Crawler<AcademicEvent> {
+public class EventCrawlerImpl extends Crawler<AcademicEvent> implements Parser<AcademicEvent> {
 	private final String event_url = "/academics/academic-calendar";
-//
-//	private List<AcademicEvent> getEvents(Document pageDoc) throws ParseException {
-//		ArrayList<AcademicEvent> result = new ArrayList<>();
-//
-//		Elements dayList = pageDoc.getElementsByClass("day");
-//		Elements monthList = pageDoc.getElementsByClass("month");
-//		Elements contentList = pageDoc.getElementsByClass("ca_content");
-//
-//		int numOfEvent = contentList.size();
-//		if ((numOfEvent == monthList.size()) && (numOfEvent == dayList.size())) {
-//			for (int i = 0; i < numOfEvent; i++) {
-//				Calendar cal = Calendar.getInstance();
-//				SimpleDateFormat inputMonthFormat = new SimpleDateFormat("MMM");
-//				cal.setTime(inputMonthFormat.parse(monthList.get(i).text()));
-//				Year year = Year.now();
-//				if (cal.get(Calendar.MONTH) < Calendar.getInstance().get(Calendar.MONTH)) {
-//					year = Year.now().plusYears(1);
-//				}
-//				SimpleDateFormat outputMonthFormat = new SimpleDateFormat("MM");
-//				String date = year + "-" + outputMonthFormat.format(cal.getTime()) + "-" + dayList.get(i).text();
-//				result.add(new AcademicEvent(Date.valueOf(date), contentList.get(i).text()));
-//			}
-//		}
-//		return result;
-//	}
 
 	@Override
 	public List<AcademicEvent> crawl() throws Exception {
-		Document doc = Crawler.getDoc(event_url);
+		Document doc = Crawler.getRelativeDoc(event_url);
 		Elements pages = doc.getElementsByClass("pager-item");
 		List<AcademicEvent> result = new ArrayList<>();
 		result.addAll(parseDocument(doc));
 		for (Element page : pages) {
-			doc=Crawler.getDoc( page.getElementsByTag("a").attr("href"));
+			doc = Crawler.getRelativeDoc(page.getElementsByTag("a").attr("href"));
 			result.addAll(parseDocument(doc));
 		}
 		return result;

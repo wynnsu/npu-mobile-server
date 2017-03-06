@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @XmlRootElement
@@ -39,13 +40,34 @@ public class Course {
 	@ManyToOne
 	@JoinColumn(name = "instructor_id", referencedColumnName = "id")
 	private Faculty instructor;
-	private Date time;
+	private String time;
 	@ManyToOne
 	@JoinColumn(name = "classroom_id", referencedColumnName = "id")
 	private Classroom classroom;
+	private int week = 0;
+	@ManyToMany(mappedBy = "courses")
+	@JsonBackReference
+	private List<Student> students = new ArrayList<>();
 
 	public Department getDepartment() {
 		return department;
+	}
+
+	public int getWeek() {
+		return week;
+	}
+
+	public void setWeek(int week) {
+		this.week = week;
+	}
+
+	@JsonIgnore
+	public List<Student> getStudents() {
+		return students;
+	}
+
+	public void setStudents(List<Student> students) {
+		this.students = students;
 	}
 
 	public void setDepartment(Department department) {
@@ -109,11 +131,11 @@ public class Course {
 		this.instructor = instructor;
 	}
 
-	public Date getTime() {
+	public String getTime() {
 		return time;
 	}
 
-	public void setTime(Date time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
 

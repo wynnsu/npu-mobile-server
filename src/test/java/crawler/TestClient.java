@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.npu.cs595.crawler.CourseCrawlerImpl;
 import edu.npu.cs595.domain.Course;
+import edu.npu.cs595.domain.Credential;
 
 public class TestClient {
 
@@ -11,12 +12,14 @@ public class TestClient {
 
 	public static void main(String[] args) {
 		try {
-			List<Course> result = courseCrawler.crawl();
-			System.out.println(result.get(0).getTitle());
+			Credential cred = new Credential();
+			cred.setId("15325sy");
+			cred.setBase64Password("NGQ1ZDI4MDIyZm5wdQ==");
+			List<Course> result = courseCrawler.crawl(cred);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-	
+
 	}
 
 }

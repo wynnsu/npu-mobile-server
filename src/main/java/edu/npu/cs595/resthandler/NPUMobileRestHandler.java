@@ -17,14 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import edu.npu.cs595.domain.AcademicEvent;
 import edu.npu.cs595.domain.Building;
 import edu.npu.cs595.domain.Course;
+import edu.npu.cs595.domain.Credential;
 import edu.npu.cs595.domain.News;
-import edu.npu.cs595.domain.Student;
 import edu.npu.cs595.exceptions.UnknownResourceException;
 import edu.npu.cs595.service.AcademicEventService;
 import edu.npu.cs595.service.BuildingService;
 import edu.npu.cs595.service.CourseService;
+import edu.npu.cs595.service.CredentialService;
 import edu.npu.cs595.service.NewsService;
-import edu.npu.cs595.service.StudentService;
 
 @Path("/")
 public class NPUMobileRestHandler {
@@ -37,7 +37,7 @@ public class NPUMobileRestHandler {
 	@Autowired
 	private NewsService newsService;
 	@Autowired
-	private StudentService studentService;
+	private CredentialService credentialService;
 	private Logger logger = Logger.getLogger(NPUMobileRestHandler.class);
 
 	@GET
@@ -157,9 +157,18 @@ public class NPUMobileRestHandler {
 	}
 
 	@POST
-	@Path("/login")
-	public int loginStudent(Student student) throws IOException {
-		int result = studentService.addNewStudent(student);
-		return result;
+	@Path("/login/{credential}")
+	public void login(String credential) throws IOException {
+		String[] strCredential = credential.split(":");
+		Credential newCredential = new Credential();
+		newCredential.setId(strCredential[0]);
+		newCredential.setBase64Password(strCredential[1]);
+		credentialService.addCredential(newCredential);
+	}
+
+	@GET
+	@Path("/login/{id}")
+	public String getLogin(String id) throws IOException {
+		return credentialService.validateCredentialById(id);
 	}
 }

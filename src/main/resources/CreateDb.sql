@@ -3,11 +3,11 @@ SHOW GRANTS FOR 'npumobileuser'@'localhost';
 
 CREATE SCHEMA IF NOT EXISTS `npumobiledb` ;
 USE `npumobiledb` ;
-
-drop table if exists student;
+drop table if exists enroll;
 drop table if exists prerequisite;
 drop table if exists tagging;
 drop table if exists course;
+drop table if exists student;
 drop table if exists academic_event;
 drop table if exists news;
 drop table if exists faculty;
@@ -74,8 +74,29 @@ create table course(
     instructor_id integer,
     department_id integer,
     classroom_id integer,
-    time date,
+    time varchar(255),
+    week integer,
     primary key (id)
+);
+
+create table student(
+	id varchar(50) not null,
+	password varchar(255),
+	name varchar(255),
+	email varchar(255),
+	address varchar(255),
+	program varchar(255),
+	cgpa double,
+	unit_progress double,
+	unit_total double,
+	primary key (id)
+);
+
+create table enroll(
+	id integer not null auto_increment,
+	student_id varchar(50),
+	course_id integer,
+	primary key (id)
 );
 
 create table prerequisite(
@@ -92,9 +113,9 @@ create table tagging (
     primary key (id)
 );
 
-create table student (
-	id integer not null auto_increment,
-	credential varchar(255),
+create table crendential (
+	id varchar(50) not null,
+	password varchar(255),
 	primary key (id)
 );
 
@@ -117,6 +138,16 @@ alter table prerequisite
 add constraint FK_prerequisite_adv 
 foreign key (advanced_course_id) 
 references course (id);
+
+alter table enroll 
+add constraint FK_enroll_course
+foreign key (course_id)
+references course (id);
+
+alter table enroll
+add constraint FK_enroll_student
+foreign key (student_id)
+references student (id);
  
 alter table course 
 add constraint FK_course_department 
