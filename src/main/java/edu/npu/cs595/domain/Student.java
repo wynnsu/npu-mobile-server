@@ -22,6 +22,14 @@ public class Student {
 	private String id;
 	@Column(name = "password")
 	private String base64Password;
+	public String getBase64Password() {
+		return base64Password;
+	}
+
+	public void setBase64Password(String base64Password) {
+		this.base64Password = base64Password;
+	}
+
 	private String name;
 	private String email;
 	private String address;

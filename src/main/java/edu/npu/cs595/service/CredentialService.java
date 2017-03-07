@@ -2,14 +2,16 @@ package edu.npu.cs595.service;
 
 import java.io.IOException;
 
+import javax.ws.rs.core.Response;
+
 import edu.npu.cs595.domain.Credential;
 
 public interface CredentialService {
 	public Credential getCredentialById(String id);
 
-	public void addCredential(Credential credential) throws IOException;
+	public Response addCredential(Credential credential) throws IOException;
 
 	public void removeCredential(String id);
 
-	public String validateCredentialById(String id) throws IOException;
+	public Response validateCredentialById(String id) throws IOException;
 }

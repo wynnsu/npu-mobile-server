@@ -20,7 +20,7 @@ public class CredentialDaoHibernateImpl implements CredentialDao {
 	@Override
 	public Credential storeCredential(Credential credential) {
 		Session session = sessionFactory.getCurrentSession();
-		session.save(credential);
+		session.saveOrUpdate(credential);
 		return credential;
 	}
 

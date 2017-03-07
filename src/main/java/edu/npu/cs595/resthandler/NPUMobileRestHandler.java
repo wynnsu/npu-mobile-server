@@ -1,8 +1,8 @@
 package edu.npu.cs595.resthandler;
 
-import java.io.IOException;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -12,19 +12,21 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.npu.cs595.domain.AcademicEvent;
 import edu.npu.cs595.domain.Building;
 import edu.npu.cs595.domain.Course;
-import edu.npu.cs595.domain.Credential;
 import edu.npu.cs595.domain.News;
+import edu.npu.cs595.domain.Student;
 import edu.npu.cs595.exceptions.UnknownResourceException;
 import edu.npu.cs595.service.AcademicEventService;
 import edu.npu.cs595.service.BuildingService;
 import edu.npu.cs595.service.CourseService;
 import edu.npu.cs595.service.CredentialService;
 import edu.npu.cs595.service.NewsService;
+import edu.npu.cs595.service.StudentService;
 
 @Path("/")
 public class NPUMobileRestHandler {
@@ -38,6 +40,8 @@ public class NPUMobileRestHandler {
 	private NewsService newsService;
 	@Autowired
 	private CredentialService credentialService;
+	@Autowired
+	private StudentService studentService;
 	private Logger logger = Logger.getLogger(NPUMobileRestHandler.class);
 
 	@GET
@@ -157,18 +161,20 @@ public class NPUMobileRestHandler {
 	}
 
 	@POST
-	@Path("/login/{credential}")
-	public void login(String credential) throws IOException {
-		String[] strCredential = credential.split(":");
-		Credential newCredential = new Credential();
-		newCredential.setId(strCredential[0]);
-		newCredential.setBase64Password(strCredential[1]);
-		credentialService.addCredential(newCredential);
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/student/{id}")
+	public Student registerStudent(@PathParam("id") String studentId, String params) {
+		Student student = new Student();
+		JSONObject obj = new JSONObject(params);
+		student = studentService.registerStudent(studentId, obj.getString("password"));
+		return student;
 	}
 
 	@GET
-	@Path("/login/{id}")
-	public String getLogin(String id) throws IOException {
-		return credentialService.validateCredentialById(id);
+	@Path("/student/{id}")
+	public Student getStudentById(@PathParam("id") String studentId) {
+		Student student = new Student();
+		student = studentService.getStudentById(studentId);
+		return student;
 	}
 }

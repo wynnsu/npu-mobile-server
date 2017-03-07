@@ -1,21 +1,19 @@
 package crawler;
 
-import java.util.List;
+import java.util.Map;
 
-import edu.npu.cs595.crawler.CourseCrawlerImpl;
-import edu.npu.cs595.domain.Course;
+import org.jsoup.nodes.Document;
+
+import edu.npu.cs595.crawler.Crawler;
 import edu.npu.cs595.domain.Credential;
 
 public class TestClient {
 
-	private static CourseCrawlerImpl courseCrawler = new CourseCrawlerImpl();
 
 	public static void main(String[] args) {
 		try {
-			Credential cred = new Credential();
-			cred.setId("15325sy");
-			cred.setBase64Password("NGQ1ZDI4MDIyZm5wdQ==");
-			List<Course> result = courseCrawler.crawl(cred);
+			Document doc = Crawler.getStudentDoc("", "15325sy", "NGQ1ZDI4MDIyZm5wdQ==");
+			System.out.println(doc.toString());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
