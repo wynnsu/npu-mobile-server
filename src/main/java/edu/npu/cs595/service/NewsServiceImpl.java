@@ -43,12 +43,7 @@ public class NewsServiceImpl implements NewsService {
 		try {
 			logger.info("Retrieving data");
 			List<News> list = newsCrawler.crawl();
-			List<News> origin = newsDao.findAllNews();
-			if (!origin.isEmpty()) {
-				for (News n : origin) {
-					newsDao.removeNews(n);
-				}
-			}
+			newsDao.removeAll();
 			for (News n : list) {
 				newsDao.storeNews(n);
 			}

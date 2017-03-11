@@ -43,12 +43,7 @@ public class AcademicEventServiceImpl implements AcademicEventService {
 		try {
 			logger.info("Retrieving data");
 			List<AcademicEvent> list = eventCrawler.crawl();
-			List<AcademicEvent> origin = eventDao.findAllEvents();
-			if (!origin.isEmpty()) {
-				for (AcademicEvent e : origin) {
-					eventDao.removeEvent(e);
-				}
-			}
+			eventDao.removeAll();
 			for (AcademicEvent e : list) {
 
 				eventDao.storeEvent(e);

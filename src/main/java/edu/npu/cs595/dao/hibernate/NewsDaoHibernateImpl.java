@@ -47,4 +47,12 @@ public class NewsDaoHibernateImpl implements NewsDao {
 		return query.list();
 	}
 
+	@Override
+	public void removeAll() {
+		Session session = sessionFactory.getCurrentSession();
+		Query query=session.createQuery("delete from News");
+		query.executeUpdate();
+		
+	}
+
 }

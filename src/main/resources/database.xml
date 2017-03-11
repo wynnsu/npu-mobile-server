@@ -36,7 +36,6 @@
 				<value>edu.npu.cs595.domain.Faculty</value>
 				<value>edu.npu.cs595.domain.News</value>
 				<value>edu.npu.cs595.domain.Tag</value>
-				<value>edu.npu.cs595.domain.Credential</value>
 				<value>edu.npu.cs595.domain.Student</value>
 			</list>
 		</property>

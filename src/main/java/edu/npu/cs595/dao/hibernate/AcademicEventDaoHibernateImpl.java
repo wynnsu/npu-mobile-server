@@ -11,13 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.npu.cs595.dao.AcademicEventDao;
 import edu.npu.cs595.domain.AcademicEvent;
+
 @Repository("AcademicEventDaoHibernate")
 @Transactional
 public class AcademicEventDaoHibernateImpl implements AcademicEventDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
-	
+
 	@Override
 	public AcademicEvent storeEvent(AcademicEvent event) {
 		Session session = sessionFactory.getCurrentSession();
@@ -28,7 +29,7 @@ public class AcademicEventDaoHibernateImpl implements AcademicEventDao {
 	@Override
 	public AcademicEvent findEvent(int eventId) {
 		Session session = sessionFactory.getCurrentSession();
-		AcademicEvent event=(AcademicEvent)session.get(AcademicEvent.class, eventId);
+		AcademicEvent event = (AcademicEvent) session.get(AcademicEvent.class, eventId);
 		return event;
 	}
 
@@ -42,8 +43,15 @@ public class AcademicEventDaoHibernateImpl implements AcademicEventDao {
 	@Override
 	public List<AcademicEvent> findAllEvents() {
 		Session session = sessionFactory.getCurrentSession();
-		Query query=session.createQuery("from AcademicEvent");
+		Query query = session.createQuery("from AcademicEvent");
 		return query.list();
+	}
+
+	@Override
+	public void removeAll() {
+		Session session = sessionFactory.getCurrentSession();
+		Query query=session.createQuery("delete from AcademicEvent");
+		query.executeUpdate();
 	}
 
 }
