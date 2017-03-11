@@ -24,7 +24,6 @@ import edu.npu.cs595.exceptions.UnknownResourceException;
 import edu.npu.cs595.service.AcademicEventService;
 import edu.npu.cs595.service.BuildingService;
 import edu.npu.cs595.service.CourseService;
-import edu.npu.cs595.service.CredentialService;
 import edu.npu.cs595.service.NewsService;
 import edu.npu.cs595.service.StudentService;
 
@@ -38,8 +37,6 @@ public class NPUMobileRestHandler {
 	private CourseService courseService;
 	@Autowired
 	private NewsService newsService;
-	@Autowired
-	private CredentialService credentialService;
 	@Autowired
 	private StudentService studentService;
 	private Logger logger = Logger.getLogger(NPUMobileRestHandler.class);
