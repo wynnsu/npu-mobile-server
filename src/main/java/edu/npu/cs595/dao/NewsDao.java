@@ -14,4 +14,6 @@ public interface NewsDao {
 	public List<News> findAllNews();
 	
 	public void removeAll();
+	
+	public void storeNewsList(List<News> list);
 }

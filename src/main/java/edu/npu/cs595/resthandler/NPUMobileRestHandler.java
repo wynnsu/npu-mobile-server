@@ -168,6 +168,7 @@ public class NPUMobileRestHandler {
 	}
 
 	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/student/{id}")
 	public Student getStudentById(@PathParam("id") String studentId) {
 		Student student = new Student();

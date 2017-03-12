@@ -14,4 +14,6 @@ public interface AcademicEventDao {
 	public List<AcademicEvent> findAllEvents();
 	
 	public void removeAll();
+	
+	public void storeEventList(List<AcademicEvent> list);
 }

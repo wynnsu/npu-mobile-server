@@ -44,10 +44,7 @@ public class AcademicEventServiceImpl implements AcademicEventService {
 			logger.info("Retrieving data");
 			List<AcademicEvent> list = eventCrawler.crawl();
 			eventDao.removeAll();
-			for (AcademicEvent e : list) {
-
-				eventDao.storeEvent(e);
-			}
+			eventDao.storeEventList(list);
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
 		}

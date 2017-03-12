@@ -70,7 +70,7 @@ create table course(
     course_number varchar(255),
     is_online varchar(255),
     title varchar(255),
-    credits double precision,
+    credits double precision default 0,
     instructor_id integer,
     department_id integer,
     classroom_id integer,
@@ -86,9 +86,9 @@ create table student(
 	email varchar(255),
 	address varchar(255),
 	program varchar(255),
-	cgpa double,
-	unit_progress double,
-	unit_total double,
+	cgpa double default 0,
+	unit_progress double default 0,
+	unit_total double default 0,
 	primary key (id)
 );
 
@@ -111,12 +111,6 @@ create table tagging (
     tag_id integer,
     faculty_id integer,
     primary key (id)
-);
-
-create table crendential (
-	id varchar(50) not null,
-	password varchar(255),
-	primary key (id)
 );
 
 alter table tagging 

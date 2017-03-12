@@ -37,16 +37,14 @@ public class NewsServiceImpl implements NewsService {
 
 	// Fire at 7:00 AM everyday
 	@Scheduled(cron = "0 0 7 * * ?")
-	// @Scheduled(cron="15 * * * * ?")
+//	 @Scheduled(cron="15 * * * * ?")
 	@Override
 	public void updateNewsList() {
 		try {
 			logger.info("Retrieving data");
 			List<News> list = newsCrawler.crawl();
 			newsDao.removeAll();
-			for (News n : list) {
-				newsDao.storeNews(n);
-			}
+			newsDao.storeNewsList(list);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();

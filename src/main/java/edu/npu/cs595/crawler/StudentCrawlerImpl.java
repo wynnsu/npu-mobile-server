@@ -13,9 +13,9 @@ import edu.npu.cs595.domain.Student;
 
 @Component
 @Qualifier("StudentCrawler")
-public class StudentCrawlerImpl extends Crawler implements Parser<Student> {
+public class StudentCrawlerImpl extends Crawler<Student> implements Parser<Student> {
 
-	private final String student_url = "";
+//	private final String student_url = "";
 	private String studentId;
 	private String base64Password;
 
