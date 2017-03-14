@@ -119,7 +119,7 @@ public class NPUMobileRestHandler {
 	@GET
 	@Path("/course/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Course getCourseById(@PathParam("id") int id) {
+	public Course getCourseById(@PathParam("id") String id) {
 		Course course = null;
 		try {
 			course = courseService.getCourseById(id);
@@ -141,29 +141,17 @@ public class NPUMobileRestHandler {
 		return courseList;
 	}
 
-	@GET
-	@Path("/course/{id}/prerequisite")
-	public List<Course> getPrerequisite(@PathParam("id") int id) {
-		Course course = null;
-		try {
-			course = courseService.getCourseById(id);
-		} catch (Exception e) {
-			throw new WebApplicationException(e.getMessage());
-		}
-		if (course == null) {
-			logger.debug("Failed request to lookup course with id: " + id);
-			throw new UnknownResourceException("Course id: " + id + " is invalid");
-		}
-		return course.getPrerequisite();
-	}
-
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/student/{id}")
 	public Student registerStudent(@PathParam("id") String studentId, String params) {
-		Student student = new Student();
+		Student student = null;
 		JSONObject obj = new JSONObject(params);
 		student = studentService.registerStudent(studentId, obj.getString("password"));
+		if (student == null) {
+			logger.debug("Failed request to register student with id: " + studentId);
+			throw new UnknownResourceException("Student id: " + studentId + " is invalid");
+		}
 		return student;
 	}
 

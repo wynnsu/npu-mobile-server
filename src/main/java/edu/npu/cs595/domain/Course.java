@@ -1,93 +1,49 @@
 package edu.npu.cs595.domain;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @XmlRootElement
 @Entity
 @Table(name = "course")
 public class Course {
 	@Id
-	@GeneratedValue
-	private int id;
+	private String id;
 	@ManyToOne
 	@JoinColumn(name = "department_id", referencedColumnName = "id")
 	private Department department;
-	@Column(name = "course_number")
-	private String courseNumber;
 	@Column(name = "is_online")
 	private String isOnline;
 	private String title;
 	private double credits;
-	@ManyToMany
-	@JoinTable(name = "prerequisite", joinColumns = @JoinColumn(name = "prerequisite_course_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "advanced_course_id", referencedColumnName = "id"))
-	private List<Course> prerequisite = new ArrayList<>();
-	@ManyToOne
-	@JoinColumn(name = "instructor_id", referencedColumnName = "id")
-	private Faculty instructor;
+	private String prerequisite;
+	private String instructor;
 	private String time;
+	private String classroom;
+
 	@ManyToOne
-	@JoinColumn(name = "classroom_id", referencedColumnName = "id")
-	private Classroom classroom;
-	private int week = 0;
-	@ManyToMany(mappedBy = "courses")
-	@JsonBackReference
-	private List<Student> students = new ArrayList<>();
+	@JoinColumn(name = "semester_name", referencedColumnName = "name")
+	private Semester semester;
 
 	public Department getDepartment() {
 		return department;
-	}
-
-	public int getWeek() {
-		return week;
-	}
-
-	public void setWeek(int week) {
-		this.week = week;
-	}
-
-	@JsonIgnore
-	public List<Student> getStudents() {
-		return students;
-	}
-
-	public void setStudents(List<Student> students) {
-		this.students = students;
 	}
 
 	public void setDepartment(Department department) {
 		this.department = department;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getCourseNumber() {
-		return courseNumber;
-	}
-
-	public void setCourseNumber(String courseNumber) {
-		this.courseNumber = courseNumber;
 	}
 
 	public String getIsOnline() {
@@ -114,20 +70,27 @@ public class Course {
 		this.credits = credits;
 	}
 
-	@JsonIgnore
-	public List<Course> getPrerequisite() {
+	public String getPrerequisite() {
 		return prerequisite;
 	}
 
-	public void setPrerequisite(List<Course> prerequisite) {
+	public void setPrerequisite(String prerequisite) {
 		this.prerequisite = prerequisite;
 	}
 
-	public Faculty getInstructor() {
+	public Semester getSemester() {
+		return semester;
+	}
+
+	public void setSemester(Semester semester) {
+		this.semester = semester;
+	}
+
+	public String getInstructor() {
 		return instructor;
 	}
 
-	public void setInstructor(Faculty instructor) {
+	public void setInstructor(String instructor) {
 		this.instructor = instructor;
 	}
 
@@ -139,11 +102,11 @@ public class Course {
 		this.time = time;
 	}
 
-	public Classroom getClassroom() {
+	public String getClassroom() {
 		return classroom;
 	}
 
-	public void setClassroom(Classroom classroom) {
+	public void setClassroom(String classroom) {
 		this.classroom = classroom;
 	}
 }

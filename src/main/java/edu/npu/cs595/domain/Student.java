@@ -1,18 +1,10 @@
 package edu.npu.cs595.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @XmlRootElement
 @Entity
@@ -22,6 +14,7 @@ public class Student {
 	private String id;
 	@Column(name = "password")
 	private String base64Password;
+
 	public String getBase64Password() {
 		return base64Password;
 	}
@@ -35,15 +28,10 @@ public class Student {
 	private String address;
 	private String program;
 	private double cgpa;
-	@Column(name="unit_progress")
+	@Column(name = "unit_progress")
 	private double unitProgress;
-	@Column(name="unit_total")
+	@Column(name = "unit_total")
 	private double unitTotal;
-
-	@ManyToMany
-	@JoinTable(name = "enroll", joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"))
-	@JsonManagedReference
-	private List<Course> courses = new ArrayList<>();
 
 	public String getId() {
 		return id;

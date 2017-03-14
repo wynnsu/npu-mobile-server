@@ -37,7 +37,7 @@ public class AcademicEventServiceImpl implements AcademicEventService {
 
 	// Fire at 7:00 AM everyday
 	@Scheduled(cron = "0 0 7 * * ?")
-	// @Scheduled(cron="15 * * * * ?")
+//	 @Scheduled(cron="15 * * * * ?")
 	@Override
 	public void updateEventList() {
 		try {

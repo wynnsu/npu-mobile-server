@@ -21,11 +21,11 @@ public class StudentDaoHibernateImpl implements StudentDao {
 	public Student storeStudent(Student student) {
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
-		Student result = null;
+//		Student result = null;
 		try {
 			tx = session.beginTransaction();
 			session.saveOrUpdate(student);
-			result = (Student) session.merge(student);
+//			result = (Student) session.merge(student);
 			// Student existStudent = (Student) session.get(Student.class,
 			// student.getId());
 			// if (existStudent != null) {
@@ -45,7 +45,7 @@ public class StudentDaoHibernateImpl implements StudentDao {
 		} finally {
 			session.close();
 		}
-		return result;
+		return student;
 	}
 
 	@Override

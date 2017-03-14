@@ -28,22 +28,18 @@ public class StudentServideImpl implements StudentService {
 
 	@Override
 	public Student registerStudent(String studentId, String base64Password) {
-		Student student = new Student();
-		student.setId(studentId);
-		student.setBase64Password(base64Password);
+		Student student = null;
 		try {
-			updateStudentInfo(studentId, base64Password);
+			List<Student> list = studentCrawler.crawl(studentId, base64Password);
+			student = list.get(0);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return studentDao.storeStudent(student);
+		if (student == null) {
+			return null;
+		} else {
+			return studentDao.storeStudent(student);
+		}
 	}
-
-	public void updateStudentInfo(String studentId, String base64Password) throws Exception {
-		List<Student> list = studentCrawler.crawl(studentId, base64Password);
-		Student student = list.get(0);
-		studentDao.storeStudent(student);
-	}
-
 }
