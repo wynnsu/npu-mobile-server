@@ -10,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
@@ -162,5 +163,14 @@ public class NPUMobileRestHandler {
 		Student student = new Student();
 		student = studentService.getStudentById(studentId);
 		return student;
+	}
+
+	@POST
+	@Path("/update")
+	public Response update() {
+		eventService.updateEventList();
+		newsService.updateNewsList();
+		courseService.updateCourseList();
+		return Response.ok().build();
 	}
 }

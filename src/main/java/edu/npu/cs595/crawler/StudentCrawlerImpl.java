@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import edu.npu.cs595.domain.Student;
-import edu.npu.cs595.resthandler.NPUMobileRestHandler;
 
 @Component
 @Qualifier("StudentCrawler")
