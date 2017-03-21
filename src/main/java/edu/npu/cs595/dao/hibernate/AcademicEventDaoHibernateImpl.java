@@ -138,4 +138,26 @@ public class AcademicEventDaoHibernateImpl implements AcademicEventDao {
 			session.close();
 		}
 	}
+
+	@Override
+	public AcademicEvent findLatest() {
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+		AcademicEvent result = null;
+		try {
+			tx = session.beginTransaction();
+			Query query = session.createQuery("from AcademicEvent");
+			query.setMaxResults(1);
+			result = (AcademicEvent) query.list().get(0);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			throw e;
+		} finally {
+			session.close();
+		}
+		return result;
+	}
 }

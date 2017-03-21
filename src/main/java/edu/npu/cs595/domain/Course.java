@@ -2,9 +2,8 @@ package edu.npu.cs595.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -13,10 +12,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "course")
 public class Course {
 	@Id
-	private String id;
-	@ManyToOne
-	@JoinColumn(name = "department_id", referencedColumnName = "id")
-	private Department department;
+	@GeneratedValue
+	private int id;
+	@Column(name="course_number")
+	private String courseNumber;
 	@Column(name = "is_online")
 	private String isOnline;
 	private String title;
@@ -25,25 +24,22 @@ public class Course {
 	private String instructor;
 	private String time;
 	private String classroom;
+	private String semester;
 
-	@ManyToOne
-	@JoinColumn(name = "semester_name", referencedColumnName = "name")
-	private Semester semester;
-
-	public Department getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(Department department) {
-		this.department = department;
-	}
-
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getCourseNumber() {
+		return courseNumber;
+	}
+
+	public void setCourseNumber(String courseNumber) {
+		this.courseNumber = courseNumber;
 	}
 
 	public String getIsOnline() {
@@ -78,11 +74,11 @@ public class Course {
 		this.prerequisite = prerequisite;
 	}
 
-	public Semester getSemester() {
+	public String getSemester() {
 		return semester;
 	}
 
-	public void setSemester(Semester semester) {
+	public void setSemester(String semester) {
 		this.semester = semester;
 	}
 

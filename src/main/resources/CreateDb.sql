@@ -3,18 +3,30 @@ SHOW GRANTS FOR 'npumobileuser'@'localhost';
 
 CREATE SCHEMA IF NOT EXISTS `npumobiledb` ;
 USE `npumobiledb` ;
+drop table if exists activity;
 drop table if exists studentcourse;
-drop table if exists semester;
 drop table if exists tagging;
 drop table if exists academic_event;
 drop table if exists news;
 drop table if exists tag;
 drop table if exists course;
+drop table if exists semester;
 drop table if exists faculty;
 drop table if exists department;
 drop table if exists classroom;
 drop table if exists building;
 drop table if exists student;
+
+create table activity(
+	id integer not null auto_increment,
+	week varchar(255),
+	due varchar(255),
+	title varchar(255),
+	points varchar(255),
+	status varchar(255),
+	stucourse_id integer,
+	primary key (id)
+);
 
 create table academic_event (
     id integer not null auto_increment,
@@ -54,16 +66,16 @@ create table building (
 );
 
 create table course(
-    id varchar(50) not null,
+    id integer not null auto_increment,
+    course_number varchar(50) not null,
     is_online varchar(255),
     title varchar(255),
     credits double precision default 0,
     instructor varchar(255),
-    department_id integer,
     classroom varchar(255),
     time varchar(255),
     prerequisite varchar(255),
-    semester_name varchar(50),
+    semester varchar(50),
     primary key (id)
 );
 
@@ -81,28 +93,9 @@ create table student(
 );
 
 create table studentcourse(
-	id integer not null,
+	id integer not null auto_increment,
 	student_id varchar(50) not null,
-	course_id varchar(50) not null,
+	course_id integer not null,
+	attendance varchar(255),
 	primary key (id)
 );
-
-alter table course 
-add constraint FK_course_department 
-foreign key (department_id) 
-references department (id);
-
-alter table course
-add constraint FK_course_semester
-foreign key (semester_name)
-references semester(name);
-
-alter table studentcourse
-add constraint FK_studentcourse_student
-foreign key (student_id)
-references student (id);
-
-alter table studentcourse
-add constraint FK_studentcourse_course
-foreign key (course_id)
-references course (id);

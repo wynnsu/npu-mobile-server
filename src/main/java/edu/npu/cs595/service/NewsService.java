@@ -10,4 +10,6 @@ public interface NewsService {
 	public List<News> getNews();
 
 	void updateNewsList();
+
+	public News getNewsLatest();
 }

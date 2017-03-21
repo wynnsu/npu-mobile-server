@@ -26,7 +26,7 @@ public class CourseServiceImpl implements CourseService {
 	protected static Logger logger = Logger.getLogger(CourseService.class);
 
 	@Override
-	public Course getCourseById(String courseId) {
+	public Course getCourseById(int courseId) {
 		return courseDao.findCourse(courseId);
 	}
 
@@ -36,8 +36,8 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	// Fire at 7:00 AM on first day of month
-	 @Scheduled(cron = "0 0 7 1 * ?")
-//	@Scheduled(cron = "0/30 * * * * ?")
+	@Scheduled(cron = "0 0 7 1 * ?")
+	// @Scheduled(cron = "0/30 * * * * ?")
 	@Override
 	public void updateCourseList() {
 		try {
@@ -50,6 +50,11 @@ public class CourseServiceImpl implements CourseService {
 		} catch (Exception e) {
 			logger.info(e.getMessage());
 		}
+	}
+
+	@Override
+	public Course getCourseSuggested(String studentId) {
+		return courseDao.findSuggested(studentId);
 	}
 
 }

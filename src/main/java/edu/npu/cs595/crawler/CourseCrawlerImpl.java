@@ -37,6 +37,9 @@ public class CourseCrawlerImpl extends Crawler<Course> implements Parser<Course>
 			if (l.text().equals("Class Schedule")) {
 				String schedule = l.attr("href");
 				try {
+					Element p = l.parent().parent().previousElementSibling();
+					String[] strs = p.text().split(" ");
+					String semester = strs[0] + strs[1];
 					Document classDoc = Crawler.getDoc(schedule);
 					Elements tables = classDoc.getElementsByTag("table");
 					for (Element t : tables) {
@@ -50,13 +53,15 @@ public class CourseCrawlerImpl extends Crawler<Course> implements Parser<Course>
 								if (cols.size() < 10 || head.equals("#"))
 									continue;
 								Course course = new Course();
-								course.setId(cols.get(1).text());
+								course.setSemester(semester);
+								course.setCourseNumber(cols.get(1).text());
 								course.setTitle(cols.get(3).text());
 								course.setCredits(Double.parseDouble(cols.get(4).text()));
 								course.setPrerequisite(cols.get(5).text());
 								course.setInstructor(cols.get(6).text());
 								course.setTime(cols.get(8).text());
 								course.setClassroom(cols.get(9).text());
+
 								result.add(course);
 							}
 						}

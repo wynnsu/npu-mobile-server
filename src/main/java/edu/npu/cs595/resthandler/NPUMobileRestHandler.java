@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -17,6 +18,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.npu.cs595.domain.AcademicEvent;
+import edu.npu.cs595.domain.Activity;
 import edu.npu.cs595.domain.Building;
 import edu.npu.cs595.domain.Course;
 import edu.npu.cs595.domain.News;
@@ -45,7 +47,7 @@ public class NPUMobileRestHandler {
 	@GET
 	@Path("/event/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public AcademicEvent getEvent(@PathParam("id") int id) {
+	public AcademicEvent getEventById(@PathParam("id") int id) {
 		AcademicEvent event = null;
 		try {
 			event = eventService.getEventById(id);
@@ -55,6 +57,23 @@ public class NPUMobileRestHandler {
 		if (event == null) {
 			logger.debug("Failed request to lookup event with id: " + id);
 			throw new UnknownResourceException("Event id: " + id + " is invalid");
+		}
+		return event;
+	}
+
+	@GET
+	@Path("/event/latest")
+	@Produces(MediaType.APPLICATION_JSON)
+	public AcademicEvent getEventLatest() {
+		AcademicEvent event = null;
+		try {
+			event = eventService.getEventLatest();
+		} catch (Exception e) {
+			throw new WebApplicationException(e.getMessage());
+		}
+		if (event == null) {
+			logger.debug("Failed request to lookup latest event");
+			throw new UnknownResourceException("No valid event");
 		}
 		return event;
 	}
@@ -70,7 +89,7 @@ public class NPUMobileRestHandler {
 	@GET
 	@Path("/building/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Building getBuilding(@PathParam("id") int id) {
+	public Building getBuildingById(@PathParam("id") int id) {
 		Building building = null;
 		try {
 			building = buildingService.getBuildingById(id);
@@ -110,6 +129,23 @@ public class NPUMobileRestHandler {
 	}
 
 	@GET
+	@Path("/news/latest")
+	@Produces(MediaType.APPLICATION_JSON)
+	public News getNewsLatest() {
+		News news = null;
+		try {
+			news = newsService.getNewsLatest();
+		} catch (Exception e) {
+			throw new WebApplicationException(e.getMessage());
+		}
+		if (news == null) {
+			logger.debug("Failed request to lookup latest news");
+			throw new UnknownResourceException("No valid News");
+		}
+		return news;
+	}
+
+	@GET
 	@Path("/news")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<News> getNewsList() {
@@ -120,7 +156,7 @@ public class NPUMobileRestHandler {
 	@GET
 	@Path("/course/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Course getCourseById(@PathParam("id") String id) {
+	public Course getCourseById(@PathParam("id") int id) {
 		Course course = null;
 		try {
 			course = courseService.getCourseById(id);
@@ -132,12 +168,28 @@ public class NPUMobileRestHandler {
 			throw new UnknownResourceException("Course id: " + id + " is invalid");
 		}
 		return course;
+	}
 
+	@GET
+	@Path("/course/{id}/suggest")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Course getCourseSuggested(@PathParam("id") String studentId) {
+		Course course = null;
+		try {
+			course = courseService.getCourseSuggested(studentId);
+		} catch (Exception e) {
+			throw new WebApplicationException(e.getMessage());
+		}
+		if (course == null) {
+			logger.debug("Failed request to lookup suggested course for student: " + studentId);
+			throw new UnknownResourceException("Suggested Course for: " + studentId + " is unkonwn");
+		}
+		return course;
 	}
 
 	@GET
 	@Path("/course")
-	public List<Course> getCourses() {
+	public List<Course> getCourseList() {
 		List<Course> courseList = courseService.getCourses();
 		return courseList;
 	}
@@ -165,12 +217,45 @@ public class NPUMobileRestHandler {
 		return student;
 	}
 
-	@POST
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/student/{id}/activity")
+	public List<Activity> getActivityListById(@PathParam("id") String studentId) {
+		List<Activity> result = studentService.getActivityById(studentId);
+		return result;
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/student/{id}/activity/coming")
+	public Activity getActivityComing(@PathParam("id") String studentId) {
+		Activity activity = studentService.getActivityComingById(studentId);
+		return activity;
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/student/{id}/grade/latest")
+	public String getGradeLatest(@PathParam("id") String studentId) {
+		String result = studentService.getGradeLatestById(studentId);
+		return result;
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/student/{id}/attendance")
+	public List<String> getAttendance(@PathParam("id") String studentId) {
+		List<String> result = studentService.getAttendance(studentId);
+		return result;
+	}
+
+	@PUT
 	@Path("/update")
-	public Response update() {
+	public Response updateGeneral() {
 		eventService.updateEventList();
 		newsService.updateNewsList();
 		courseService.updateCourseList();
 		return Response.ok().build();
 	}
+
 }

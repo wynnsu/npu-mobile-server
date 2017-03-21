@@ -10,11 +10,15 @@ public interface CourseDao {
 
 	public Course storeCourse(Course course);
 
-	public Course findCourse(String courseId);
+	public Course findCourse(int courseId);
 
 	public void removeCourse(Course course);
 
 	public List<Course> findAllCourses();
 
 	public void removeAll();
+
+	public Course findSuggested(String studentId);
+
+	public int findCourseIdByName(String string,String semester);
 }

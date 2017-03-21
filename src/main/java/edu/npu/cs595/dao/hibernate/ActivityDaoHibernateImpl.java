@@ -2,34 +2,32 @@ package edu.npu.cs595.dao.hibernate;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import javax.transaction.Transactional;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import edu.npu.cs595.dao.CourseDao;
-import edu.npu.cs595.domain.Course;
+import edu.npu.cs595.dao.ActivityDao;
+import edu.npu.cs595.domain.Activity;
 
-@Repository("CourseDaoHibernate")
+@Repository("ActivityDaoHibernate")
 @Transactional
-public class CourseDaoHibernateImpl implements CourseDao {
+public class ActivityDaoHibernateImpl implements ActivityDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	private static Logger logger = Logger.getLogger(CourseDaoHibernateImpl.class);
-
 	@Override
-	public Course storeCourse(Course course) {
+	public Activity storeActivity(Activity activity) {
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			session.saveOrUpdate(course);
+			session.saveOrUpdate(activity);
 			tx.commit();
 		} catch (Exception e) {
 			if (tx != null) {
@@ -39,17 +37,17 @@ public class CourseDaoHibernateImpl implements CourseDao {
 		} finally {
 			session.close();
 		}
-		return course;
+		return activity;
 	}
 
 	@Override
-	public Course findCourse(int courseId) {
+	public Activity findActivity(int activityId) {
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
-		Course course = null;
+		Activity activity = null;
 		try {
 			tx = session.beginTransaction();
-			course = (Course) session.get(Course.class, courseId);
+			activity = (Activity) session.get(Activity.class, activityId);
 			tx.commit();
 		} catch (Exception e) {
 			if (tx != null) {
@@ -59,16 +57,16 @@ public class CourseDaoHibernateImpl implements CourseDao {
 		} finally {
 			session.close();
 		}
-		return course;
+		return activity;
 	}
 
 	@Override
-	public void removeCourse(Course course) {
+	public void removeActivity(Activity activity) {
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			session.delete(course);
+			session.delete(activity);
 			tx.commit();
 		} catch (Exception e) {
 			if (tx != null) {
@@ -82,13 +80,13 @@ public class CourseDaoHibernateImpl implements CourseDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Course> findAllCourses() {
+	public List<Activity> findAllActivities() {
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
-		List<Course> result = null;
+		List<Activity> result = null;
 		try {
 			tx = session.beginTransaction();
-			Query query = session.createQuery("from Course");
+			Query query = session.createQuery("from Activity");
 			result = query.list();
 			tx.commit();
 		} catch (Exception e) {
@@ -108,7 +106,7 @@ public class CourseDaoHibernateImpl implements CourseDao {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			Query query = session.createQuery("delete from Course");
+			Query query = session.createQuery("delete from Activity");
 			query.executeUpdate();
 			tx.commit();
 		} catch (Exception e) {
@@ -122,13 +120,13 @@ public class CourseDaoHibernateImpl implements CourseDao {
 	}
 
 	@Override
-	public void storeCourseList(List<Course> list) {
+	public void storeActivityList(List<Activity> list) {
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			for (Course c : list) {
-				session.saveOrUpdate(c);
+			for (Activity a : list) {
+				session.saveOrUpdate(a);
 			}
 			tx.commit();
 		} catch (Exception e) {
@@ -139,37 +137,6 @@ public class CourseDaoHibernateImpl implements CourseDao {
 		} finally {
 			session.close();
 		}
-	}
-
-	@Override
-	public Course findSuggested(String studentId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int findCourseIdByName(String courseName, String semester) {
-		logger.info("Finding course: " + courseName + ", sem: " + semester);
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
-		int result = -1;
-		try {
-			tx = session.beginTransaction();
-			String hql = "select id from Course where course_number = (:name) and semester = (:semester)";
-			Query query = session.createQuery(hql);
-			query.setParameter("name", courseName );
-			query.setParameter("semester", semester);
-			result = (int) query.list().get(0);
-			tx.commit();
-		} catch (Exception e) {
-			if (tx != null) {
-				tx.rollback();
-			}
-			throw e;
-		} finally {
-			session.close();
-		}
-		return result;
 	}
 
 }

@@ -10,4 +10,6 @@ public interface AcademicEventService {
 	public AcademicEvent getEventById(int eventId);
 
 	public void updateEventList();
+
+	public AcademicEvent getEventLatest();
 }

@@ -16,4 +16,6 @@ public interface AcademicEventDao {
 	public void removeAll();
 	
 	public void storeEventList(List<AcademicEvent> list);
+
+	public AcademicEvent findLatest();
 }

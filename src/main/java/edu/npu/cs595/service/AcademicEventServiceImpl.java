@@ -50,4 +50,9 @@ public class AcademicEventServiceImpl implements AcademicEventService {
 		}
 	}
 
+	@Override
+	public AcademicEvent getEventLatest() {
+		return eventDao.findLatest();
+	}
+
 }

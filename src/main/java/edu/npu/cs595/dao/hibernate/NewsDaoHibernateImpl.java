@@ -122,10 +122,43 @@ public class NewsDaoHibernateImpl implements NewsDao {
 
 	@Override
 	public void removeAll() {
-		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery("delete from News");
-		query.executeUpdate();
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			Query query = session.createQuery("delete from News");
+			query.executeUpdate();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			throw e;
+		} finally {
+			session.close();
+		}
+	}
 
+	@Override
+	public News findLatest() {
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+		News result = null;
+		try {
+			tx = session.beginTransaction();
+			Query query = session.createQuery("from News");
+			query.setMaxResults(1);
+			result = (News) query.list().get(0);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			throw e;
+		} finally {
+			session.close();
+		}
+		return result;
 	}
 
 }

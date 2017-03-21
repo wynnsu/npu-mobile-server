@@ -51,4 +51,9 @@ public class NewsServiceImpl implements NewsService {
 			logger.debug(e.getMessage());
 		}
 	}
+
+	@Override
+	public News getNewsLatest() {
+		return newsDao.findLatest();
+	}
 }
