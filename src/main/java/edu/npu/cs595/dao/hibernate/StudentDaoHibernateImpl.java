@@ -211,7 +211,6 @@ public class StudentDaoHibernateImpl implements StudentDao {
 			tx = session.beginTransaction();
 			Query query = session.createQuery("from StudentCourse where student_id = :studentId");
 			query.setParameter("studentId", studentId);
-			@SuppressWarnings("unchecked")
 			List<StudentCourse> courseList = query.list();
 			for (StudentCourse sc : courseList) {
 				query = session.createQuery("from Activity where stucourse_id = :courseId");

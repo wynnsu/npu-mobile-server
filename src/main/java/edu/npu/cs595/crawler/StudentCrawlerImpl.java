@@ -76,7 +76,6 @@ public class StudentCrawlerImpl extends Crawler<Student> implements Parser<Stude
 		student.setProgram(lines.get(4).text());
 		logger.info("Student Info OK");
 
-		List<StudentCourse> stuCourses = new ArrayList<>();
 		Element field = doc.select("fieldset.stuHealth").get(0);
 		Element legend = field.getElementsByTag("legend").get(0);
 		String[] strs = legend.text().split(" ");
