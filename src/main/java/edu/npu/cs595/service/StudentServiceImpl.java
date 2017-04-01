@@ -11,6 +11,7 @@ import edu.npu.cs595.crawler.Crawler;
 import edu.npu.cs595.dao.StudentDao;
 import edu.npu.cs595.domain.Activity;
 import edu.npu.cs595.domain.Student;
+import edu.npu.cs595.domain.StudentCourse;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -22,7 +23,7 @@ public class StudentServiceImpl implements StudentService {
 	@Autowired
 	@Qualifier("StudentCrawler")
 	private Crawler<Student> studentCrawler;
-	
+
 	protected static Logger logger = Logger.getLogger(NewsService.class);
 
 	@Override
@@ -50,33 +51,33 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public List<Activity> getActivityById(String studentId) {
 		logger.info("Finding Activity");
-		return studentDao.findActivity(studentId);
+		return studentDao.findActivity(studentId, 0);
 	}
 
 	@Override
-	public List<String> getAttendance(String studentId) {
+	public List<StudentCourse> getAttendance(String studentId) {
 		logger.info("Finding Attendance");
 		return studentDao.findAttendance(studentId);
 	}
 
 	@Override
-	public String getGradeLatestById(String studentId) {
-		logger.info("Finding Grades");
-		return studentDao.findGradeLatest(studentId);
-	}
-
-	@Override
-	public Activity getActivityComingById(String studentId) {
+	public List<Activity> getActivityComing(String studentId) {
 		logger.info("Finding coming activity");
-		return studentDao.findActivityComing(studentId);
+		return studentDao.findActivity(studentId, 1);
 	}
 
 	@Override
 	public void updateStudent(String studentId) throws Exception {
 		logger.info("Retrieving data");
-		Student student=studentDao.findStudent(studentId);
-		if(student!=null){
+		Student student = studentDao.findStudent(studentId);
+		if (student != null) {
 			studentCrawler.crawl(student.getId(), student.getBase64Password());
 		}
+	}
+
+	@Override
+	public List<Activity> getActivityLatest(String studentId) {
+		logger.info("Finding Latest");
+		return studentDao.findActivity(studentId, -1);
 	}
 }

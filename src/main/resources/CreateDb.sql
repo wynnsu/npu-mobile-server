@@ -19,12 +19,16 @@ drop table if exists student;
 
 create table activity(
 	id integer not null auto_increment,
-	week varchar(255),
-	due varchar(255),
+	week integer,
+	due timestamp,
+	pastdue integer,
+	allowlate integer,
 	title varchar(255),
-	points varchar(255),
-	status varchar(255),
-	stucourse_id integer,
+	points double,
+	total double,
+	submitted integer,
+	submit_time timestamp,
+	stucourse_id int,
 	primary key (id)
 );
 

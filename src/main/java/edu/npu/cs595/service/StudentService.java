@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.npu.cs595.domain.Activity;
 import edu.npu.cs595.domain.Student;
+import edu.npu.cs595.domain.StudentCourse;
 
 public interface StudentService {
 	public Student getStudentById(String studentId);
@@ -14,9 +15,9 @@ public interface StudentService {
 
 	public List<Activity> getActivityById(String studentId);
 
-	public List<String> getAttendance(String studentId);
+	public List<StudentCourse> getAttendance(String studentId);
 
-	public String getGradeLatestById(String studentId);
+	public List<Activity> getActivityLatest(String studentId);
 
-	public Activity getActivityComingById(String studentId);
+	public List<Activity> getActivityComing(String studentId);
 }

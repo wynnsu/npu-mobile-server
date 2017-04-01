@@ -18,11 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import edu.npu.cs595.dao.CourseDao;
 import edu.npu.cs595.dao.StudentDao;
-import edu.npu.cs595.domain.Activity;
 import edu.npu.cs595.domain.Student;
-import edu.npu.cs595.domain.StudentCourse;
 
 @Component
 @Qualifier("StudentCrawler")
@@ -34,8 +31,9 @@ public class StudentCrawlerImpl extends Crawler<Student> implements Parser<Stude
 
 	@Autowired
 	StudentDao studentDao;
-	@Autowired
-	private CourseDao courseDao;
+//	@Autowired
+//	private CourseDao courseDao;
+	
 	private Logger logger = Logger.getLogger(StudentCrawlerImpl.class);
 	// private Map<String, String> cookies;
 
@@ -76,71 +74,71 @@ public class StudentCrawlerImpl extends Crawler<Student> implements Parser<Stude
 		student.setProgram(lines.get(4).text());
 		logger.info("Student Info OK");
 
-		Element field = doc.select("fieldset.stuHealth").get(0);
-		Element legend = field.getElementsByTag("legend").get(0);
-		String[] strs = legend.text().split(" ");
-		String semester = strs[1] + strs[0];
-		Element table = field.getElementsByTag("table").get(0);
-		Elements rows = table.select("tr:gt(0)");
-		logger.info("Student Course Found");
-		for (Element row : rows) {
-			Elements cols = row.select("td");
-			StudentCourse stuCourse = new StudentCourse();
-			stuCourse.setStudentId(studentId);
-			StringBuilder sb = new StringBuilder();
-			sb.append(cols.get(1).text());
-			if (!cols.get(2).text().isEmpty()) {
-				sb.append("-");
-				sb.append(cols.get(2).text());
-			}
-			String courseName = sb.toString();
-			int courseId = courseDao.findCourseIdByName(courseName, semester);
-			logger.info("Course ID: " + courseId);
-			stuCourse.setCourseId(courseId);
-			List<Activity> activities = new ArrayList<>();
-			String attendance = "";
-			if (cols.get(1).text().startsWith("CS595")) {
-				attendance = "P P P P P P P P P P";
-				Activity act = new Activity();
-				act.setTitle("Proposal One Page");
-				act.setWeek("W3");
-				act.setDue("1/30/2017 12:00:00 AM (Past Due) Allow Late Submission");
-				act.setStatus("(Submitted 1/28/2017 11:41:49 AM)");
-				act.setPoints("100.00 / 100");
-				activities.add(act);
-
-				Activity act2 = new Activity();
-				act2.setTitle("Progress Report # 3");
-				act2.setWeek("W11");
-				act2.setDue("3/28/2017 11:30:00 PM Allow Late Submission");
-				act2.setStatus("No answer submitted!");
-				act2.setPoints("0 / 100");
-				activities.add(act2);
-			} else if (cols.get(1).text().startsWith("CS570")) {
-				attendance = "P P A P P P P P P P";
-				Activity act = new Activity();
-				act.setTitle("Midterm");
-				act.setWeek("W8");
-				act.setDue("3/2/2017 9:00:00 PM (Past Due)");
-				act.setStatus("(Submitted 3/2/2017 7:21:08 PM)");
-				act.setPoints("20.00 / 20");
-				activities.add(act);
-
-				Activity act2 = new Activity();
-				act2.setTitle("HW4");
-				act2.setWeek("W10");
-				act2.setDue("3/26/2017 11:30:00 PM Allow Late Submission ");
-				act2.setStatus("No answer submitted!");
-				act2.setPoints("0 / 100");
-				activities.add(act2);
-			}
-			stuCourse.setAttendance(attendance);
-			StudentCourse savedCourse = studentDao.storeStudentCourse(stuCourse);
-			for (Activity act : activities) {
-				act.setStudentCourseId(savedCourse.getId());
-				studentDao.storeActivity(act);
-			}
-		}
+//		Element field = doc.select("fieldset.stuHealth").get(0);
+//		Element legend = field.getElementsByTag("legend").get(0);
+//		String[] strs = legend.text().split(" ");
+//		String semester = strs[1] + strs[0];
+//		Element table = field.getElementsByTag("table").get(0);
+//		Elements rows = table.select("tr:gt(0)");
+//		logger.info("Student Course Found");
+//		for (Element row : rows) {
+//			Elements cols = row.select("td");
+//			StudentCourse stuCourse = new StudentCourse();
+//			stuCourse.setStudentId(studentId);
+//			StringBuilder sb = new StringBuilder();
+//			sb.append(cols.get(1).text());
+//			if (!cols.get(2).text().isEmpty()) {
+//				sb.append("-");
+//				sb.append(cols.get(2).text());
+//			}
+//			String courseName = sb.toString();
+//			int courseId = courseDao.findCourseIdByName(courseName, semester);
+//			logger.info("Course ID: " + courseId);
+//			stuCourse.setCourseId(courseId);
+//			List<Activity> activities = new ArrayList<>();
+//			String attendance = "";
+//			if (cols.get(1).text().startsWith("CS595")) {
+//				attendance = "P P P P P P P P P P";
+//				Activity act = new Activity();
+//				act.setTitle("Proposal One Page");
+//				act.setWeek("W3");
+//				act.setDue("1/30/2017 12:00:00 AM (Past Due) Allow Late Submission");
+//				act.setStatus("(Submitted 1/28/2017 11:41:49 AM)");
+//				act.setPoints("100.00 / 100");
+//				activities.add(act);
+//
+//				Activity act2 = new Activity();
+//				act2.setTitle("Progress Report # 3");
+//				act2.setWeek("W11");
+//				act2.setDue("3/28/2017 11:30:00 PM Allow Late Submission");
+//				act2.setStatus("No answer submitted!");
+//				act2.setPoints("0 / 100");
+//				activities.add(act2);
+//			} else if (cols.get(1).text().startsWith("CS570")) {
+//				attendance = "P P A P P P P P P P";
+//				Activity act = new Activity();
+//				act.setTitle("Midterm");
+//				act.setWeek("W8");
+//				act.setDue("3/2/2017 9:00:00 PM (Past Due)");
+//				act.setStatus("(Submitted 3/2/2017 7:21:08 PM)");
+//				act.setPoints("20.00 / 20");
+//				activities.add(act);
+//
+//				Activity act2 = new Activity();
+//				act2.setTitle("HW4");
+//				act2.setWeek("W10");
+//				act2.setDue("3/26/2017 11:30:00 PM Allow Late Submission ");
+//				act2.setStatus("No answer submitted!");
+//				act2.setPoints("0 / 100");
+//				activities.add(act2);
+//			}
+//			stuCourse.setAttendance(attendance);
+//			StudentCourse savedCourse = studentDao.storeStudentCourse(stuCourse);
+//			for (Activity act : activities) {
+//				act.setStudentCourseId(savedCourse.getId());
+//				studentDao.storeActivity(act);
+//			}
+//		}
 		List<Student> result = new ArrayList<>();
 		result.add(student);
 		return result;

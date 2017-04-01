@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,6 +24,7 @@ import edu.npu.cs595.domain.Building;
 import edu.npu.cs595.domain.Course;
 import edu.npu.cs595.domain.News;
 import edu.npu.cs595.domain.Student;
+import edu.npu.cs595.domain.StudentCourse;
 import edu.npu.cs595.exceptions.UnknownResourceException;
 import edu.npu.cs595.service.AcademicEventService;
 import edu.npu.cs595.service.BuildingService;
@@ -189,6 +191,7 @@ public class NPUMobileRestHandler {
 
 	@GET
 	@Path("/course")
+	@Produces(MediaType.APPLICATION_JSON)
 	public List<Course> getCourseList() {
 		List<Course> courseList = courseService.getCourses();
 		return courseList;
@@ -228,25 +231,33 @@ public class NPUMobileRestHandler {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/student/{id}/activity/coming")
-	public Activity getActivityComing(@PathParam("id") String studentId) {
-		Activity activity = studentService.getActivityComingById(studentId);
+	public List<Activity> getActivityComing(@PathParam("id") String studentId) {
+		List<Activity> activity = studentService.getActivityComing(studentId);
 		return activity;
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/student/{id}/grade/latest")
-	public String getGradeLatest(@PathParam("id") String studentId) {
-		String result = studentService.getGradeLatestById(studentId);
+	@Path("/student/{id}/activity/latest")
+	public List<Activity> getActivityLatest(@PathParam("id") String studentId) {
+		List<Activity> result = studentService.getActivityLatest(studentId);
 		return result;
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/student/{id}/attendance")
-	public List<String> getAttendance(@PathParam("id") String studentId) {
-		List<String> result = studentService.getAttendance(studentId);
-		return result;
+	public Response getAttendance(@PathParam("id") String studentId) {
+		JSONArray result = new JSONArray();
+		List<StudentCourse> courses = studentService.getAttendance(studentId);
+		for (StudentCourse sc : courses) {
+			JSONObject obj = new JSONObject();
+			Course course = courseService.getCourseById(sc.getCourseId());
+			obj.put("title",course.getCourseNumber());
+			obj.put("attendance", sc.getAttendance());
+			result.put(obj);
+		}
+		return Response.ok(result.toList()).build();
 	}
 
 	@PUT
