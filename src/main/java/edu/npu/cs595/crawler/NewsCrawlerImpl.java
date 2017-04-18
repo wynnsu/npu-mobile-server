@@ -40,7 +40,9 @@ public class NewsCrawlerImpl extends Crawler<News> implements Parser<News> {
 			Element first = fieldList.first();
 			Element last = fieldList.last();
 			String title = header.text();
-			String imgUrl = "https://www.npu.edu" + first.select("img").first().attr("src");
+			String imgUrl = first.select("img").first().attr("src");
+			if (!imgUrl.contains("www.npu.edu"))
+				imgUrl = "https://www.npu.edu" + imgUrl;
 			String content = last.text();
 			result.add(new News(imgUrl, title, content));
 		}

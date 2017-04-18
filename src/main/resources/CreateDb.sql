@@ -4,7 +4,7 @@ SHOW GRANTS FOR 'npumobileuser'@'localhost';
 CREATE SCHEMA IF NOT EXISTS `npumobiledb` ;
 USE `npumobiledb` ;
 drop table if exists activity;
-drop table if exists studentcourse;
+drop table if exists enroll;
 drop table if exists tagging;
 drop table if exists academic_event;
 drop table if exists news;
@@ -27,8 +27,10 @@ create table activity(
 	points double,
 	total double,
 	submitted integer,
-	submit_time timestamp,
-	stucourse_id int,
+	submit_time timestamp,	
+	course_number varchar(50) not null,
+	student_id varchar(50) not null,
+	semester varchar(50) not null,
 	primary key (id)
 );
 
@@ -70,7 +72,6 @@ create table building (
 );
 
 create table course(
-    id integer not null auto_increment,
     course_number varchar(50) not null,
     is_online varchar(255),
     title varchar(255),
@@ -80,7 +81,7 @@ create table course(
     time varchar(255),
     prerequisite varchar(255),
     semester varchar(50),
-    primary key (id)
+    primary key (course_number,semester)
 );
 
 create table student(
@@ -96,10 +97,10 @@ create table student(
 	primary key (id)
 );
 
-create table studentcourse(
-	id integer not null auto_increment,
+create table enroll(
+	course_number varchar(50) not null,
 	student_id varchar(50) not null,
-	course_id integer not null,
+	semester varchar(50) not null,
 	attendance varchar(255),
-	primary key (id)
+	primary key (course_number,semester,student_id)
 );

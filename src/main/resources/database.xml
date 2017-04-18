@@ -32,11 +32,12 @@
 				<value>edu.npu.cs595.domain.Activity</value>
 				<value>edu.npu.cs595.domain.Building</value>
 				<value>edu.npu.cs595.domain.Course</value>
+				<value>edu.npu.cs595.domain.CourseId</value>
 				<value>edu.npu.cs595.domain.Department</value>
 				<value>edu.npu.cs595.domain.News</value>
 				<value>edu.npu.cs595.domain.Student</value>
-				<value>edu.npu.cs595.domain.StudentCourse</value>
-				<value>edu.npu.cs595.domain.Semester</value>
+				<value>edu.npu.cs595.domain.Enroll</value>
+				<value>edu.npu.cs595.domain.EnrollId</value>
 				<value>edu.npu.cs595.domain.Semester</value>
 			</list>
 		</property>

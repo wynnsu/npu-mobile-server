@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import edu.npu.cs595.domain.Course;
+import edu.npu.cs595.domain.CourseId;
 
 @Component
 @Qualifier("CourseCrawler")
@@ -53,8 +54,10 @@ public class CourseCrawlerImpl extends Crawler<Course> implements Parser<Course>
 								if (cols.size() < 10 || head.equals("#"))
 									continue;
 								Course course = new Course();
-								course.setSemester(semester);
-								course.setCourseNumber(cols.get(1).text());
+								CourseId id = new CourseId();
+								id.setSemester(semester);
+								id.setCourseNumber(cols.get(1).text());
+								course.setId(id);
 								course.setTitle(cols.get(3).text());
 								course.setCredits(Double.parseDouble(cols.get(4).text()));
 								course.setPrerequisite(cols.get(5).text());

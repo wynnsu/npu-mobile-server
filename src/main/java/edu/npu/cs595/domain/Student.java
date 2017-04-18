@@ -96,5 +96,4 @@ public class Student {
 	public void setUnitTotal(double unitTotal) {
 		this.unitTotal = unitTotal;
 	}
-
 }

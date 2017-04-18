@@ -25,8 +25,8 @@ public class Activity {
 	private int submitted;
 	@Column(name="submit_time")
 	private Date submitTime;
-	@Column(name="stucourse_id")
-	private int studentCourseId;
+	@Column(name="enroll_id")
+	private EnrollId enrollId;
 
 	/**
 	 * @return the due
@@ -113,20 +113,6 @@ public class Activity {
 	}
 
 	/**
-	 * @return the studentCourseId
-	 */
-	public int getStudentCourseId() {
-		return studentCourseId;
-	}
-
-	/**
-	 * @param studentCourseId the studentCourseId to set
-	 */
-	public void setStudentCourseId(int studentCourseId) {
-		this.studentCourseId = studentCourseId;
-	}
-
-	/**
 	 * @param id the id to set
 	 */
 	public void setId(int id) {
@@ -180,6 +166,20 @@ public class Activity {
 	 */
 	public void setTotal(double total) {
 		this.total = total;
+	}
+
+	/**
+	 * @return the enrollId
+	 */
+	public EnrollId getEnrollId() {
+		return enrollId;
+	}
+
+	/**
+	 * @param enrollId the enrollId to set
+	 */
+	public void setEnrollId(EnrollId enrollId) {
+		this.enrollId = enrollId;
 	}
 	
 }

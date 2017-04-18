@@ -22,9 +22,11 @@ import edu.npu.cs595.domain.AcademicEvent;
 import edu.npu.cs595.domain.Activity;
 import edu.npu.cs595.domain.Building;
 import edu.npu.cs595.domain.Course;
+import edu.npu.cs595.domain.CourseId;
+import edu.npu.cs595.domain.Enroll;
+import edu.npu.cs595.domain.EnrollId;
 import edu.npu.cs595.domain.News;
 import edu.npu.cs595.domain.Student;
-import edu.npu.cs595.domain.StudentCourse;
 import edu.npu.cs595.exceptions.UnknownResourceException;
 import edu.npu.cs595.service.AcademicEventService;
 import edu.npu.cs595.service.BuildingService;
@@ -158,10 +160,20 @@ public class NPUMobileRestHandler {
 	@GET
 	@Path("/course/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Course getCourseById(@PathParam("id") int id) {
+	public Course getCourseById(@PathParam("id") String id) {
 		Course course = null;
 		try {
-			course = courseService.getCourseById(id);
+			CourseId courseId = new CourseId();
+			String[] strs = id.split("-");
+			if (strs.length < 2)
+				throw new WebApplicationException();
+			if (strs.length > 2) {
+				courseId.setCourseNumber(strs[0] + "-" + strs[1]);
+			} else {
+				courseId.setCourseNumber(strs[0]);
+			}
+			courseId.setSemester(strs[strs.length - 1]);
+			course = courseService.getCourseById(courseId);
 		} catch (Exception e) {
 			throw new WebApplicationException(e.getMessage());
 		}
@@ -187,6 +199,21 @@ public class NPUMobileRestHandler {
 			throw new UnknownResourceException("Suggested Course for: " + studentId + " is unkonwn");
 		}
 		return course;
+	}
+
+	@POST
+	@Path("/course/{id}/{courseId}")
+	public Response enrollCourse(@PathParam("id") String studentId, @PathParam("courseId") String courseId) {
+		try {
+			String semester = courseService.getCurrentSemester();
+			Enroll enroll = new Enroll();
+			enroll.setId(new EnrollId(new CourseId(courseId, semester), studentId));
+			enroll.setAttendance("");
+			studentService.enrollCourse(enroll);
+		} catch (Exception e) {
+			throw new WebApplicationException(e.getMessage());
+		}
+		return Response.accepted().build();
 	}
 
 	@GET
@@ -249,12 +276,14 @@ public class NPUMobileRestHandler {
 	@Path("/student/{id}/attendance")
 	public Response getAttendance(@PathParam("id") String studentId) {
 		JSONArray result = new JSONArray();
-		List<StudentCourse> courses = studentService.getAttendance(studentId);
-		for (StudentCourse sc : courses) {
+		List<Enroll> courses = studentService.getAttendance(studentId);
+		int weekNo=courseService.getCurrentWeek();
+		logger.info(courses == null ? "null result" : "not null result");
+		for (Enroll sc : courses) {
 			JSONObject obj = new JSONObject();
-			Course course = courseService.getCourseById(sc.getCourseId());
-			obj.put("title",course.getCourseNumber());
+			obj.put("title", sc.getId().getCourseId().getCourseNumber());
 			obj.put("attendance", sc.getAttendance());
+			obj.put("week", weekNo);
 			result.put(obj);
 		}
 		return Response.ok(result.toList()).build();
