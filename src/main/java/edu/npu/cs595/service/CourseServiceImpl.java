@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import edu.npu.cs595.crawler.Crawler;
 import edu.npu.cs595.dao.CourseDao;
 import edu.npu.cs595.domain.Course;
+import edu.npu.cs595.domain.CourseId;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -26,7 +27,7 @@ public class CourseServiceImpl implements CourseService {
 	protected static Logger logger = Logger.getLogger(CourseService.class);
 
 	@Override
-	public Course getCourseById(int courseId) {
+	public Course getCourseById(CourseId courseId) {
 		return courseDao.findCourse(courseId);
 	}
 
@@ -55,6 +56,16 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public Course getCourseSuggested(String studentId) {
 		return courseDao.findSuggested(studentId);
+	}
+
+	@Override
+	public String getCurrentSemester() {
+		return courseDao.getCurrentSemester();
+	}
+
+	@Override
+	public int getCurrentWeek() {
+		return courseDao.getCurrentWeek();
 	}
 
 }

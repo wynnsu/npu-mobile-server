@@ -2,16 +2,16 @@ package edu.npu.cs595.dao;
 
 import java.util.List;
 
-import edu.npu.cs595.domain.StudentCourse;
+import edu.npu.cs595.domain.Enroll;
 
 public interface StudentCourseDao {
-	public StudentCourse storeStudentCourse(StudentCourse studentCourse);
+	public Enroll storeStudentCourse(Enroll studentCourse);
 
-	public StudentCourse findStudentCourse(int studentCourseId);
+	public Enroll findStudentCourse(int studentCourseId);
 
-	public void removeStudentCourse(StudentCourse studentCourse);
+	public void removeStudentCourse(Enroll studentCourse);
 
-	public List<StudentCourse> findStudentCourseByStudentId(String studentId);
+	public List<Enroll> findStudentCourseByStudentId(String studentId);
 
-	public void storeStudentCourseList(List<StudentCourse> list);
+	public void storeStudentCourseList(List<Enroll> list);
 }

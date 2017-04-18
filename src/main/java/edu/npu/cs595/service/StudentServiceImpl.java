@@ -11,7 +11,7 @@ import edu.npu.cs595.crawler.Crawler;
 import edu.npu.cs595.dao.StudentDao;
 import edu.npu.cs595.domain.Activity;
 import edu.npu.cs595.domain.Student;
-import edu.npu.cs595.domain.StudentCourse;
+import edu.npu.cs595.domain.Enroll;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -24,7 +24,7 @@ public class StudentServiceImpl implements StudentService {
 	@Qualifier("StudentCrawler")
 	private Crawler<Student> studentCrawler;
 
-	protected static Logger logger = Logger.getLogger(NewsService.class);
+	protected static Logger logger = Logger.getLogger(StudentService.class);
 
 	@Override
 	public Student getStudentById(String studentId) {
@@ -55,7 +55,7 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public List<StudentCourse> getAttendance(String studentId) {
+	public List<Enroll> getAttendance(String studentId) {
 		logger.info("Finding Attendance");
 		return studentDao.findAttendance(studentId);
 	}
@@ -79,5 +79,10 @@ public class StudentServiceImpl implements StudentService {
 	public List<Activity> getActivityLatest(String studentId) {
 		logger.info("Finding Latest");
 		return studentDao.findActivity(studentId, -1);
+	}
+
+	@Override
+	public void enrollCourse(Enroll enroll) {
+		studentDao.enrollCourse(enroll);
 	}
 }

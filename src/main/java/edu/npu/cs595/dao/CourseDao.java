@@ -3,6 +3,7 @@ package edu.npu.cs595.dao;
 import java.util.List;
 
 import edu.npu.cs595.domain.Course;
+import edu.npu.cs595.domain.CourseId;
 
 public interface CourseDao {
 
@@ -10,7 +11,7 @@ public interface CourseDao {
 
 	public Course storeCourse(Course course);
 
-	public Course findCourse(int courseId);
+	public Course findCourse(CourseId courseId);
 
 	public void removeCourse(Course course);
 
@@ -20,5 +21,9 @@ public interface CourseDao {
 
 	public Course findSuggested(String studentId);
 
-	public int findCourseIdByName(String string,String semester);
+	public CourseId findCourseIdByName(String string,String semester);
+
+	public String getCurrentSemester();
+
+	public int getCurrentWeek();
 }

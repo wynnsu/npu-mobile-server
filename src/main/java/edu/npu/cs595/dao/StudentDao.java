@@ -4,7 +4,7 @@ import java.util.List;
 
 import edu.npu.cs595.domain.Activity;
 import edu.npu.cs595.domain.Student;
-import edu.npu.cs595.domain.StudentCourse;
+import edu.npu.cs595.domain.Enroll;
 
 /**
  * @author su153
@@ -17,7 +17,7 @@ public interface StudentDao {
 
 	public void removeStudent(Student student);
 
-	public List<StudentCourse> findStudentCourseByStudentId(String studentId);
+	public List<Enroll> findStudentCourseByStudentId(String studentId);
 
 	/**
 	 * @param studentId
@@ -27,5 +27,7 @@ public interface StudentDao {
 	 */
 	public List<Activity> findActivity(String studentId, int code);
 
-	public List<StudentCourse> findAttendance(String studentId);
+	public List<Enroll> findAttendance(String studentId);
+
+	public void enrollCourse(Enroll enroll);
 }

@@ -1,9 +1,8 @@
 package edu.npu.cs595.domain;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -11,11 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "course")
 public class Course {
-	@Id
-	@GeneratedValue
-	private int id;
-	@Column(name="course_number")
-	private String courseNumber;
+	@EmbeddedId
+	private CourseId id;
 	@Column(name = "is_online")
 	private String isOnline;
 	private String title;
@@ -24,24 +20,6 @@ public class Course {
 	private String instructor;
 	private String time;
 	private String classroom;
-	private String semester;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getCourseNumber() {
-		return courseNumber;
-	}
-
-	public void setCourseNumber(String courseNumber) {
-		this.courseNumber = courseNumber;
-	}
-
 	public String getIsOnline() {
 		return isOnline;
 	}
@@ -73,15 +51,6 @@ public class Course {
 	public void setPrerequisite(String prerequisite) {
 		this.prerequisite = prerequisite;
 	}
-
-	public String getSemester() {
-		return semester;
-	}
-
-	public void setSemester(String semester) {
-		this.semester = semester;
-	}
-
 	public String getInstructor() {
 		return instructor;
 	}
@@ -104,5 +73,20 @@ public class Course {
 
 	public void setClassroom(String classroom) {
 		this.classroom = classroom;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public CourseId getId() {
+		return id;
+	}
+
+	/**
+	 * @param id
+	 *            the id to set
+	 */
+	public void setId(CourseId id) {
+		this.id = id;
 	}
 }
