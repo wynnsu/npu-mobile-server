@@ -14,26 +14,6 @@ NPU Mobile Server provides back-end support to NPU Mobile app. It crawls data fr
 
 ![Architecture](/images/architecture.png)
 
-## Database
-
-### Database Configuration
-
-[`src/main/resources/database.xml`](src/main/resources/database.xml)
-
-Define database related beans, including `dataSource`, `sessionFactory` and `trasactionManager`.
-
-### Create database schema and tables
-
-[`src/main/resources/CreateDb.sql`](src/main/resources/CreateDb.sql)
-
-![Entity Relationship Diagram](images/backend_EntityRelationshipDiagram.png)
-
-### Add mock data
-
-[`src/main/resources/AddDataDb.sql`](src/main/resources/AddDataDb.sql)
-
-*NPU Mobile Server uses mock data for Student Protal related functions for security consideration.*
-
 ## APIs
 
 Method|Url|Description
@@ -54,3 +34,23 @@ GET|/student/{id}/activity/latest|Get latest grade of student
 GET|/student/{id}/attendance|Get student attendance record
 POST|/student/{id}|Login a student
 PUT|/update|Update general information (News, Events etc.)
+
+## Database
+
+### Database Configuration
+
+[`src/main/resources/database.xml`](src/main/resources/database.xml)
+
+Define database related beans, including `dataSource`, `sessionFactory` and `trasactionManager`.
+
+### Create database schema and tables
+
+[`src/main/resources/CreateDb.sql`](src/main/resources/CreateDb.sql)
+
+![Entity Relationship Diagram](images/backend_EntityRelationshipDiagram.png)
+
+### Add mock data
+
+[`src/main/resources/AddDataDb.sql`](src/main/resources/AddDataDb.sql)
+
+*NPU Mobile Server uses mock data for Student Protal related functions for security consideration.*
