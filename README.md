@@ -6,7 +6,7 @@ NPU Mobile is the first Android application for Northwestern Polytechnic Univers
 
 ## Introduction
 
-NPU Mobile Server provides back-end support to NPU Mobile app. It crawls data with [jsoup](https://jsoup.org/) from [NPU Website](http://www.npu.edu), stores to MySQL database hosted on Amazon Relational Database Service (RDS), syncs automatically and provides RESTful APIs to [NPU Mobile Android application](https://github.com/wynnsu/hamster).
+NPU Mobile Server provides back-end support to NPU Mobile app. It crawls data with [jsoup](https://jsoup.org/) from [NPU Website](http://www.npu.edu), stores to MySQL database hosted on Amazon Relational Database Service (RDS) through [hibernate](http://hibernate.org/), syncs automatically and provides RESTful APIs with [JAX-RS](https://github.com/jax-rs) to [NPU Mobile Android application](https://github.com/wynnsu/hamster).
 
 ![Structure](images/backend_structure.png)
 
